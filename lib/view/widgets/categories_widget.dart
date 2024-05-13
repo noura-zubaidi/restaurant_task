@@ -3,6 +3,7 @@ class Categories extends StatelessWidget {
   final String imagePath;
   final String categoryName;
 
+
   const Categories({Key? key, required this.imagePath, required this.categoryName})
       : super(key: key);
 

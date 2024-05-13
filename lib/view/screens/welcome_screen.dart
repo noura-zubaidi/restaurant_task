@@ -9,13 +9,14 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
+
         onVerticalDragUpdate: (details) {
 
           if (details.primaryDelta! < -5) {
 
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+              MaterialPageRoute(builder: (context) => const OnBoardingScreen()),
             );
           }
         },
