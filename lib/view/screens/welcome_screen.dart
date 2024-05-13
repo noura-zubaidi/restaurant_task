@@ -11,7 +11,7 @@ class WelcomeScreen extends StatelessWidget {
       body: GestureDetector(
         onVerticalDragUpdate: (details) {
 
-          if (details.primaryDelta! < -20) {
+          if (details.primaryDelta! < -5) {
 
             Navigator.push(
               context,

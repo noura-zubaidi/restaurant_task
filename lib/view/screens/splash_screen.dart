@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: GestureDetector(
         onVerticalDragUpdate: (details) {
-          if (details.primaryDelta! < -20) {
+          if (details.primaryDelta! < -5) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => WelcomeScreen()),

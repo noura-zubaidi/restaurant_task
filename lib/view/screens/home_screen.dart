@@ -54,7 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 50,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LocationMapScreen()),
+                          );
+                        },
                         child: Text(
                           'Deliver to',
                           style: TextStyle(fontSize: 16),
