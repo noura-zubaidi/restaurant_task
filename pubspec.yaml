@@ -42,8 +42,10 @@ dependencies:
   page_view_indicators: ^2.0.0
   google_maps_flutter: ^2.1.0
   retrofit: ^4.1.0
+  dio: ^5.4.3+1
   logger: any  #for logging purpose
   json_annotation: ^4.8.1
+  provider: ^6.1.2
 
 
 dev_dependencies:

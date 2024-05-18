@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:resturant_task/model/special_offers.dart';
+import 'package:resturant_task/view/screens/constants.dart';
 
-import '../widgets/customized_textfield.dart';
+import 'package:resturant_task/view_model/special_offers_provider.dart';
 
 class SpecialOffers extends StatefulWidget {
-  SpecialOffers({super.key});
+  const SpecialOffers({super.key});
 
   @override
   State<SpecialOffers> createState() => _SpecialOffersState();
@@ -19,13 +22,6 @@ class _SpecialOffersState extends State<SpecialOffers> {
     _focusNode.dispose();
     super.dispose();
   }
-  final List<String> imageUrls = [
-    'https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/KUFWIPXROII6ZLAWR67XDFGNPA.jpg&w=1100',
-    'https://assets.epicurious.com/photos/5c745a108918ee7ab68daf79/16:9/w_3743,h_2105,c_limit/Smashburger-recipe-120219.jpg',
-    'https://assets-jpcust.jwpsrv.com/thumbnails/qSXwlEH3-720.jpg',
-  ];
-  final List<String> categories = ['Burger', 'Ice Cream', 'Pizza','Drink',
-    'Sandwich','Taco','Donut','Pudding'];
 
   @override
   Widget build(BuildContext context) {
@@ -38,68 +34,82 @@ class _SpecialOffersState extends State<SpecialOffers> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 70),
-            Text(
+            const SizedBox(height: 70),
+            const Text(
               'Special Offers',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-
-        TextField(
-          onTap: (){
-            setState(() {
-              _focusNode.requestFocus();
-            });
-          },
-          controller: _controller,
-          focusNode: _focusNode,
-          decoration: InputDecoration(
-            filled: true,
-            suffixIcon: _controller.text.isNotEmpty? IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: () {
-                _controller.clear();
+            TextField(
+              onTap: () {
+                setState(() {
+                  _focusNode.requestFocus();
+                });
               },
-            ) : null,
-            hintText: 'Search',
-            hintStyle: TextStyle(color: Colors.grey.shade500),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black),
-            ),
-            fillColor: Colors.grey.shade100,
-            prefixIcon: Icons.search != null ? Icon(Icons.search) : null,
-            prefixIconColor: Colors.grey.shade500,
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(16.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-               physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
+              controller: _controller,
+              focusNode: _focusNode,
+              decoration: InputDecoration(
+                filled: true,
+                suffixIcon: _controller.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _controller.clear();
+                        },
+                      )
+                    : null,
+                hintText: 'Search',
+                hintStyle: TextStyle(color: Colors.grey.shade500),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
                 ),
-                itemCount: 8,
-                itemBuilder: (BuildContext context, int index) {
-                  return Offers(
-                    imagePath: 'Item $index',  categoryName: categories[index],
+                fillColor: Colors.grey.shade100,
+                // ignore: unnecessary_null_comparison
+                prefixIcon:
+                    Icons.search != null ? const Icon(Icons.search) : null,
+                prefixIconColor: Colors.grey.shade500,
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.black, width: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Consumer<SpecialOffersProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final specialOffers = provider.specialOffers?.specialOffers;
+
+                  if (specialOffers == null || specialOffers.isEmpty) {
+                    return const Center(child: Text('No offers available'));
+                  }
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                    ),
+                    itemCount: specialOffers.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final offer = specialOffers[index];
+                      return OfferCard(
+                        offer: offer,
+                        imagePath: offerImage[index],
+                      );
+                    },
                   );
                 },
               ),
             ),
-          ),
-        ),
-
           ],
         ),
       ),
@@ -107,18 +117,18 @@ class _SpecialOffersState extends State<SpecialOffers> {
   }
 }
 
-class Offers extends StatefulWidget {
+class OfferCard extends StatefulWidget {
   final String imagePath;
-  final String categoryName;
+  final Offer offer;
 
-  const Offers({Key? key, required this.imagePath, required this.categoryName})
+  const OfferCard({Key? key, required this.offer, required this.imagePath})
       : super(key: key);
 
   @override
-  _OffersState createState() => _OffersState();
+  _OfferCardState createState() => _OfferCardState();
 }
 
-class _OffersState extends State<Offers> {
+class _OfferCardState extends State<OfferCard> {
   bool isFavorited = false;
 
   @override
@@ -133,14 +143,15 @@ class _OffersState extends State<Offers> {
       child: Stack(
         children: [
           Column(
-           // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
                 flex: 1,
-                child:ClipRRect(
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    'https://www.shutterstock.com/image-photo/burger-tomateoes-lettuce-pickles-on-600nw-2309539129.jpg',
+                    widget.imagePath,
+
+                    //widget.offer.image ?? '',
                     fit: BoxFit.cover,
                     width: 150,
                   ),
@@ -149,57 +160,48 @@ class _OffersState extends State<Offers> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          widget.categoryName,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500
-                          ),
-                        ),
+                      Text(
+                        widget.offer.name ?? '',
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(height: 3,),
+                      const SizedBox(height: 3),
                       Row(
                         children: [
-                          Image.network('https://cdn.iconscout.com/icon/free/png-256/free-star-bookmark-favorite-shape-rank-16-28621.png?f=webp',
-                          width: 15,height: 15,),
-                          SizedBox(width: 4,),
-                          Text('4.5',style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w500
-                          ),)
+                          const Icon(Icons.star, size: 15, color: Colors.amber),
+                          const SizedBox(width: 4),
+                          Text(
+                            widget.offer.rating?.toString() ?? '',
+                            style: const TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w500),
+                          ),
                         ],
                       ),
-                      SizedBox(height: 3,),
+                      const SizedBox(height: 3),
                       RichText(
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: '22.00 \$  ',
-                              style: TextStyle(
+                              text:
+                                  '${widget.offer.originalPrice} ${widget.offer.currency} ',
+                              style: const TextStyle(
                                 color: Colors.grey,
                                 decoration: TextDecoration.lineThrough,
-                                 decorationColor: Colors.grey.shade400,
-                                decorationThickness: 2
                               ),
                             ),
                             TextSpan(
-                              text: '   20.00 \$',
-                              style: TextStyle(
-                                color: Colors.deepOrange,
-                              ),
+                              text:
+                                  '${widget.offer.discountPrice} ${widget.offer.currency}',
+                              style: const TextStyle(color: Colors.deepOrange),
                             ),
                           ],
                         ),
-                      )
-
+                      ),
                     ],
-
                   ),
                 ),
               ),
@@ -211,7 +213,7 @@ class _OffersState extends State<Offers> {
             child: Container(
               width: 40,
               height: 40,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
               ),

@@ -1,16 +1,32 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:resturant_task/view/screens/home_screen.dart';
-import 'package:resturant_task/view/screens/location_map.dart';
-import 'package:resturant_task/view/screens/login_screen.dart';
-import 'package:resturant_task/view/screens/onboarding_screen.dart';
-import 'package:resturant_task/view/screens/profile_screen.dart';
-import 'package:resturant_task/view/screens/signup_screen.dart';
-import 'package:resturant_task/view/screens/special_offers.dart';
-import 'package:resturant_task/view/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:resturant_task/model/categories_services.dart';
+import 'package:resturant_task/model/special_offers_services.dart';
 
+import 'package:resturant_task/view/screens/splash_screen.dart';
+import 'package:resturant_task/view_model/categories_provider.dart';
+import 'package:resturant_task/view_model/special_offers_provider.dart';
 
 void main() {
-  runApp(MyApp());
+  final dio = Dio();
+  final webServices = WebServices(dio);
+  final categoriesServices = CategoriesServices(dio);
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) =>
+              SpecialOffersProvider(webServices)..fetchSpecialOffers(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) =>
+              CategoriesProvider(categoriesServices)..fetchCategories(),
+        )
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
+    return const MaterialApp(
       home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );

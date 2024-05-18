@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-class Categories extends StatelessWidget {
+import 'package:resturant_task/model/categories.dart';
+
+class CategoriesCard extends StatefulWidget {
   final String imagePath;
-  final String categoryName;
+  final String? categoryName;
+  final Categories categories;
 
-
-  const Categories({Key? key, required this.imagePath, required this.categoryName})
+  const CategoriesCard(
+      {Key? key,
+      required this.imagePath,
+      required this.categories,
+      this.categoryName})
       : super(key: key);
 
+  @override
+  State<CategoriesCard> createState() => _CategoriesCardState();
+}
+
+class _CategoriesCardState extends State<CategoriesCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,10 +31,8 @@ class Categories extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child:  Image.network(
-              //'https://i.pinimg.com/originals/d5/1c/26/d51c265f23624be0343f0bed659a69df.png',
-              imagePath,
-
+            child: Image.network(
+              widget.imagePath,
               height: 40,
               width: 40,
             ),
@@ -34,7 +43,7 @@ class Categories extends StatelessWidget {
               padding: EdgeInsets.all(6),
               child: Center(
                 child: Text(
-                  categoryName,
+                  widget.categories.name ?? '',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,
