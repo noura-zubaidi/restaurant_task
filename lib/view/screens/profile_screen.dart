@@ -30,14 +30,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-
-            children:[
+            children: [
               Center(
                 child: Stack(
                   children: [
                     const CircleAvatar(
                       radius: 60,
-
                     ),
                     Positioned(
                       top: 0,
@@ -69,39 +67,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               const CustomTextField(
-                hintText:'Gmail' ,
+                hintText: 'Gmail',
                 suffixIcon: Icons.email,
               ),
               const SizedBox(height: 20),
               const CustomTextField(
-                hintText:'Name' ,
+                hintText: 'Name',
                 suffixIcon: Icons.person_rounded,
               ),
               const SizedBox(height: 20),
               const CustomTextField(
-                hintText:'Birth Date' ,
+                hintText: 'Birth Date',
                 suffixIcon: Icons.calendar_month,
               ),
               const SizedBox(height: 20),
               const CustomTextField(
-                hintText:'Location' ,
+                hintText: 'Location',
                 suffixIcon: Icons.location_on,
               ),
               const SizedBox(height: 20),
               const CustomTextField(
-                hintText:'Gender' ,
+                hintText: 'Gender',
                 suffixIcon: Icons.arrow_drop_down,
               ),
               const SizedBox(height: 20),
               CustomButton(
-                text: 'Continue', onPressed: () {  },
-
+                text: 'Continue',
+                onPressed: () {},
               ),
               const SizedBox(height: 10),
-            const Align(
-              alignment: Alignment.center,
-              child: Text('Skip',style: TextStyle(fontSize: 16),),
-            )
+              const Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Skip',
+                  style: TextStyle(fontSize: 16),
+                ),
+              )
             ],
           ),
         ),

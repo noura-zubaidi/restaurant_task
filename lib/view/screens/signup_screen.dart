@@ -1,11 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:resturant_task/view/screens/login_screen.dart';
 
 import '../widgets/customized_button.dart';
 import '../widgets/customized_textfield.dart';
 import 'home_screen.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -15,7 +17,9 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   GlobalKey<FormState> _formkey = GlobalKey();
-
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   bool rememberMe = false;
   @override
   Widget build(BuildContext context) {
@@ -36,13 +40,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               const SizedBox(height: 28),
-               SizedBox(
+              SizedBox(
                 width: 345,
                 child: IntlPhoneField(
+                  controller: _phoneController,
                   decoration: InputDecoration(
                     filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
                     ),
                     fillColor: Colors.grey.shade100,
                     hintText: 'Phone Number',
@@ -52,25 +57,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               const SizedBox(height: 5),
-              const CustomTextField(
+              CustomTextField(
+                controller: _emailController,
                 prefixIcon: Icons.email,
                 hintText: 'Email',
-
-
               ),
               const SizedBox(height: 10),
-              const CustomTextField(
+              CustomTextField(
+                controller: _nameController,
                 prefixIcon: Icons.person_rounded,
                 hintText: 'Full Name',
-
-
               ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Checkbox(
-                    visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+                    visualDensity:
+                        const VisualDensity(horizontal: 0, vertical: 0),
                     checkColor: Colors.white,
                     activeColor: Colors.deepOrange,
                     shape: const RoundedRectangleBorder(
@@ -89,18 +93,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ],
               ),
-
               Padding(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 4.5),
                 child: CustomButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  }, text: 'Sign in',
-
+                    if (_formkey.currentState!.validate()) {
+                      signUp();
+                    }
+                  },
+                  text: 'Sign up',
                 ),
               ),
               const SizedBox(height: 12),
@@ -117,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Text(
                       'Or sign in with',
                       style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                   ),
                   SizedBox(width: 100, child: Divider()),
@@ -143,7 +145,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 1,
+                  const SizedBox(
+                    width: 1,
                   ),
                   ClipOval(
                     child: ElevatedButton(
@@ -162,7 +165,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 1,
+                  const SizedBox(
+                    width: 1,
                   ),
                   ClipOval(
                     child: ElevatedButton(
@@ -181,15 +185,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-
                 ],
               ),
-              const SizedBox(height: 16,),
+              const SizedBox(
+                height: 16,
+              ),
               RichText(
                 text: TextSpan(
                   text: "Don't have an account? ",
                   style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
                     color: Colors.black,
                   ),
                   children: [
@@ -202,7 +208,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ..onTap = () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SignUpScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => SignUpScreen()),
                           );
                         },
                     ),
@@ -213,6 +220,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void signUp() async {
+    var box = await Hive.openBox('users');
+    var user = {
+      'phone': _phoneController.text,
+      'email': _emailController.text,
+      'name': _nameController.text
+    };
+    await box.put(_phoneController.text, user);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
     );
   }
 }
