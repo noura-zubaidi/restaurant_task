@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:resturant_task/view/widgets/customized_textfield.dart';
+import 'package:resturant_task/core/customized_textfield.dart';
 
-import '../widgets/customized_button.dart';
+import '../../core/customized_button.dart';
 
 class LocationMapScreen extends StatelessWidget {
   LocationMapScreen({Key? key});
@@ -34,21 +34,30 @@ class LocationMapScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding( padding: const EdgeInsets.all(8.0),
-                    child: Text('Location',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),),
-
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Location',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ),
                     SizedBox(height: 10),
-                    CustomTextField(hintText: 'Your Location',
-                    suffixIcon: Icons.location_on,),
+                    CustomTextField(
+                      hintText: 'Your Location',
+                      suffixIcon: Icons.location_on,
+                    ),
                     SizedBox(height: 15),
-                    CustomTextField(hintText: 'Location Name',
-                   ),
-                    SizedBox(height: 17,),
+                    CustomTextField(
+                      hintText: 'Location Name',
+                    ),
+                    SizedBox(
+                      height: 17,
+                    ),
                     CustomButton(
                       text: 'Save',
-                      onPressed: (){
-
-                      },
+                      onPressed: () {},
                     ),
                   ],
                 ),

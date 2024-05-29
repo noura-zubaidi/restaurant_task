@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resturant_task/model/categories.dart';
-import 'package:resturant_task/model/categories_services.dart';
+import 'package:resturant_task/repo/categories_services.dart';
 
 class CategoriesProvider with ChangeNotifier {
   TheCategories? _theCategories;

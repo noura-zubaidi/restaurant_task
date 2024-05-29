@@ -6,7 +6,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:resturant_task/view/screens/profile_screen.dart';
 import 'package:resturant_task/view/screens/signup_screen.dart';
 
-import '../widgets/customized_button.dart';
+import '../../core/customized_button.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {

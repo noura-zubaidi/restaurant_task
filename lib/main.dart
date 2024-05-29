@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resturant_task/model/categories_services.dart';
-import 'package:resturant_task/model/special_offers_services.dart';
+import 'package:resturant_task/repo/categories_services.dart';
+import 'package:resturant_task/repo/special_offers_services.dart';
 
 import 'package:resturant_task/view/screens/splash_screen.dart';
 import 'package:resturant_task/view_model/categories_provider.dart';

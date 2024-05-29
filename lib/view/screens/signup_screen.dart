@@ -4,8 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:resturant_task/view/screens/login_screen.dart';
 
-import '../widgets/customized_button.dart';
-import '../widgets/customized_textfield.dart';
+import '../../core/customized_button.dart';
+import '../../core/customized_textfield.dart';
 import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {

@@ -6,7 +6,7 @@ import 'package:resturant_task/view_model/categories_provider.dart';
 import '../widgets/ads.dart';
 import '../widgets/categories_widget.dart';
 import '../widgets/customized_bottom_navigation.dart';
-import '../widgets/customized_textfield.dart';
+import '../../core/customized_textfield.dart';
 import 'constants.dart';
 import 'location_map.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:resturant_task/model/special_offers.dart';
-import 'package:resturant_task/model/special_offers_services.dart';
+import 'package:resturant_task/repo/special_offers_services.dart';
 
 class SpecialOffersProvider with ChangeNotifier {
   SpecialOffers? _specialOffers;

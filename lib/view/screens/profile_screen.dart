@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import '../widgets/customized_button.dart';
-import '../widgets/customized_textfield.dart';
+import '../../core/customized_button.dart';
+import '../../core/customized_textfield.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
