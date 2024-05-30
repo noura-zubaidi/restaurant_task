@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:resturant_task/data/hive_helper.dart';
 import 'package:resturant_task/view/screens/login_screen.dart';
 
 import '../../core/customized_button.dart';
@@ -224,13 +225,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signUp() async {
-    var box = await Hive.openBox('users');
-    var user = {
+    final hiveHelper = HiveHelper();
+    final user = {
       'phone': _phoneController.text,
       'email': _emailController.text,
-      'name': _nameController.text
+      'name': _nameController.text,
     };
-    await box.put(_phoneController.text, user);
+    await hiveHelper.saveUser(_phoneController.text, user);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => LoginScreen()),

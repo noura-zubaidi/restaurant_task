@@ -101,13 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       left: 140,
                     ),
                     child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LocationMapScreen()),
-                          );
-                        },
+                        onTap: () {},
                         child: const Icon(Icons.shopping_bag_rounded)),
                   ),
                 ],
