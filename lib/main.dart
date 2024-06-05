@@ -19,7 +19,7 @@ void main() async {
   final webServices = WebServices(dio);
   final categoriesServices = CategoriesServices(dio);
 
-  final hiveHelper = HiveHelper();
+  final hiveHelper = HiveHelper(Hive);
   final rememberedPhone = await hiveHelper.getRememberedUser();
 
   runApp(

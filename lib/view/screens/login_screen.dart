@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
 
   void login() async {
-    final hiveHelper = HiveHelper();
+    final hiveHelper = HiveHelper(Hive);
     final user = await hiveHelper.getUserByPhone(_phoneController.text);
 
     if (user != null) {

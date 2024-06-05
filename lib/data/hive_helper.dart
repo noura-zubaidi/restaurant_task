@@ -1,12 +1,16 @@
 import 'package:hive/hive.dart';
 
 class HiveHelper {
+  final HiveInterface hive;
+
+  HiveHelper(this.hive);
+
   Future<Box> openUserBox() async {
-    return await Hive.openBox('users');
+    return await hive.openBox('users');
   }
 
   Future<Box> openLoginBox() async {
-    return await Hive.openBox('login');
+    return await hive.openBox('login');
   }
 
   Future<Map<String, dynamic>?> getUserByPhone(String phone) async {

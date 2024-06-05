@@ -225,7 +225,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signUp() async {
-    final hiveHelper = HiveHelper();
+    final hiveHelper = HiveHelper(Hive);
     final user = {
       'phone': _phoneController.text,
       'email': _emailController.text,
