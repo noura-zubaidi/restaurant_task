@@ -11,42 +11,30 @@ import 'hive_helper_test.mocks.dart';
 void main() {
   late MockHiveInterface mockHive;
   late MockBox mockBox;
+
   late HiveHelper hiveHelper;
-
   setUp(() async {
-    // Initialize Hive for tests
     await setUpTestHive();
-
-    // Create mock objects
     mockHive = MockHiveInterface();
     mockBox = MockBox();
     hiveHelper = HiveHelper(mockHive);
-
-    // Mock the openBox method
     when(mockHive.openBox('users')).thenAnswer((_) async => mockBox);
     when(mockHive.openBox('login')).thenAnswer((_) async => mockBox);
   });
-
   tearDown(() async {
-    // Clean up Hive after tests
     await tearDownTestHive();
   });
-
   test('Open User Box', () async {
     final result = await hiveHelper.openUserBox();
     expect(result, isA<Box>());
   });
-
   test('Save and Retrieve User', () async {
     const phone = '12345';
     final userData = {'name': 'Test User', 'email': 'test@example.com'};
-
     when(mockBox.put(phone, userData)).thenAnswer((_) async {});
     when(mockBox.get(phone)).thenAnswer((_) async => userData);
-
     await hiveHelper.saveUser(phone, userData);
     final retrievedUser = await hiveHelper.getUserByPhone(phone);
-
     expect(retrievedUser, userData);
   });
 }
